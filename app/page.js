@@ -112,6 +112,7 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
                 <option value="christian">Christian</option>
                 <option value="stoic">Stoic</option>
                 <option value="budism">Buddhism</option>
+                <option value="rastafarianism">Rastafarianism</option>
               </select>
             </div>
 
