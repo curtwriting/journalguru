@@ -17,7 +17,9 @@ export default function JournalPromptGenerator() {
   // ============================================================
   const [age, setAge] = useState('');                    // Stores the selected age range
   const [issue, setIssue] = useState('');                // Stores the issue to explore
+  const [customIssue, setCustomIssue] = useState('');    // Stores custom issue when "Other" is selected
   const [lens, setLens] = useState('');                  // Stores the philosophical lens
+  const [customLens, setCustomLens] = useState('');      // Stores custom lens when "Other" is selected
   const [numPrompts, setNumPrompts] = useState('');      // Stores how many prompts they want
   const [generatedPrompt, setGeneratedPrompt] = useState(''); // Stores the final generated prompt text
   const [copied, setCopied] = useState(false);           // Tracks if the copy button was clicked
@@ -33,6 +35,24 @@ export default function JournalPromptGenerator() {
       return; // Stop the function here if fields are empty
     }
 
+    // If "Other" is selected, make sure they entered custom text
+    if (issue === 'Other' && !customIssue.trim()) {
+      alert('Please enter your custom issue in the text field.');
+      return;
+    }
+
+    // If "Other" is selected for lens, make sure they entered custom text
+    if (lens === 'Other' && !customLens.trim()) {
+      alert('Please enter your custom philosophical lens in the text field.');
+      return;
+    }
+
+    // Use custom issue if "Other" was selected, otherwise use the dropdown selection
+    const finalIssue = issue === 'Other' ? customIssue : issue;
+    
+    // Use custom lens if "Other" was selected, otherwise use the dropdown selection
+    const finalLens = lens === 'Other' ? customLens : lens;
+
     // Convert "3-5" to "3 to 5" for better readability in the prompt
     const promptCount = numPrompts === '3-5' ? '3 to 5' : numPrompts;
     
@@ -41,13 +61,13 @@ export default function JournalPromptGenerator() {
     const llmPrompt = `You are a thoughtful journaling coach helping someone develop meaningful self-reflection practices. Please create ${promptCount} journal prompt${numPrompts === '1' ? '' : 's'} for the following person:
 
 Age Range: ${age}
-Life Situation: ${issue}
-Philosophical/Spiritual Lens: ${lens}
+Life Situation: ${finalIssue}
+Philosophical/Spiritual Lens: ${finalLens}
 
 Requirements:
 - Tailor the language and complexity to be age-appropriate for someone in the ${age} age range
-- Focus specifically on helping them explore "${issue}"
-- Frame the prompts through a ${lens} perspective, incorporating relevant principles and wisdom from this tradition
+- Focus specifically on helping them explore "${finalIssue}"
+- Frame the prompts through a ${finalLens} perspective, incorporating relevant principles and wisdom from this tradition
 - Make each prompt open-ended to encourage deep reflection
 - Ensure prompts are specific enough to be actionable but broad enough to allow personal interpretation
 - Include gentle guidance on how to approach the prompt if helpful
@@ -78,7 +98,9 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
   const resetForm = () => {
     setAge('');
     setIssue('');
+    setCustomIssue('');
     setLens('');
+    setCustomLens('');
     setNumPrompts('');
     setGeneratedPrompt('');
   };
@@ -145,7 +167,19 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
                 <option value="Being More Present">Being More Present</option>
                 <option value="recent health diagnosis">Recent Health Diagnosis</option>
                 <option value="new job">New Job</option>
+                <option value="Other">Other (specify below)</option>
               </select>
+
+              {/* TEXT INPUT: Shows when "Other" is selected */}
+              {issue === 'Other' && (
+                <input
+                  type="text"
+                  value={customIssue}
+                  onChange={(e) => setCustomIssue(e.target.value)}
+                  placeholder="Enter your custom issue here..."
+                  className="mt-3 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+                />
+              )}
             </div>
 
             {/* DROPDOWN 3: Philosophical Lens */}
@@ -163,7 +197,19 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
                 <option value="stoic">Stoic</option>
                 <option value="budism">Buddhism</option>
                 <option value="rastafarianism">Rastafarianism</option>
+                <option value="Other">Other (specify below)</option>
               </select>
+
+              {/* TEXT INPUT: Shows when "Other" is selected for lens */}
+              {lens === 'Other' && (
+                <input
+                  type="text"
+                  value={customLens}
+                  onChange={(e) => setCustomLens(e.target.value)}
+                  placeholder="Enter your custom philosophical lens here..."
+                  className="mt-3 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+                />
+              )}
             </div>
 
             {/* DROPDOWN 4: Number of Prompts */}
