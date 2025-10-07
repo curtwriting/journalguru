@@ -4,7 +4,7 @@
 // ============================================================
 import React, { useState } from 'react';
 // Import icons from lucide-react library for visual elements
-import { BookOpen, Sparkles, Copy, Check } from 'lucide-react';
+import { Sparkles, Copy, Check, Loader2 } from 'lucide-react';
 
 // ============================================================
 // MAIN COMPONENT - This is the entire app
@@ -21,18 +21,20 @@ export default function JournalPromptGenerator() {
   const [lens, setLens] = useState('');                  // Stores the philosophical lens
   const [customLens, setCustomLens] = useState('');      // Stores custom lens when "Other" is selected
   const [numPrompts, setNumPrompts] = useState('');      // Stores how many prompts they want
-  const [generatedPrompt, setGeneratedPrompt] = useState(''); // Stores the final generated prompt text
+  const [generatedPrompts, setGeneratedPrompts] = useState(''); // Stores the journal prompts from Claude
+  const [loading, setLoading] = useState(false);         // Tracks if we're waiting for Claude's response
+  const [error, setError] = useState('');                // Stores any error messages
   const [copied, setCopied] = useState(false);           // Tracks if the copy button was clicked
 
   // ============================================================
-  // FUNCTION 1: Generate the LLM Prompt
-  // This runs when the user clicks "Generate LLM Prompt" button
+  // FUNCTION 1: Generate Journal Prompts using Claude API
+  // This runs when the user clicks "Generate Journal Prompts" button
   // ============================================================
-  const generateLLMPrompt = () => {
+  const generatePrompts = async () => {
     // Check if all fields are filled out - if not, show an alert
     if (!age || !issue || !lens || !numPrompts) {
-      alert('Please fill out all fields before generating your prompt.');
-      return; // Stop the function here if fields are empty
+      alert('Please fill out all fields before generating your prompts.');
+      return;
     }
 
     // If "Other" is selected, make sure they entered custom text
@@ -53,29 +55,41 @@ export default function JournalPromptGenerator() {
     // Use custom lens if "Other" was selected, otherwise use the dropdown selection
     const finalLens = lens === 'Other' ? customLens : lens;
 
-    // Convert "3-5" to "3 to 5" for better readability in the prompt
-    const promptCount = numPrompts === '3-5' ? '3 to 5' : numPrompts;
-    
-    // Build the actual prompt text that will be shown to the user
-    // This uses template literals (backticks) to insert variables into the text
-    const llmPrompt = `You are a thoughtful journaling coach helping someone develop meaningful self-reflection practices. Please create ${promptCount} journal prompt${numPrompts === '1' ? '' : 's'} for the following person:
+    // Show loading state
+    setLoading(true);
+    setError('');
+    setGeneratedPrompts('');
 
-Age Range: ${age}
-Life Situation: ${finalIssue}
-Philosophical/Spiritual Lens: ${finalLens}
+    try {
+      // Call the backend API
+      // IMPORTANT: Change this URL to match your backend server location
+      // If running locally, use: http://localhost:3001/api/generate-prompts
+      // If deployed, use your deployed backend URL
+      const response = await fetch('http://localhost:3001/api/generate-prompts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          age,
+          issue: finalIssue,
+          lens: finalLens,
+          numPrompts,
+        }),
+      });
 
-Requirements:
-- Tailor the language and complexity to be age-appropriate for someone in the ${age} age range
-- Focus specifically on helping them explore "${finalIssue}"
-- Frame the prompts through a ${finalLens} perspective, incorporating relevant principles and wisdom from this tradition
-- Make each prompt open-ended to encourage deep reflection
-- Ensure prompts are specific enough to be actionable but broad enough to allow personal interpretation
-- Include gentle guidance on how to approach the prompt if helpful
+      if (!response.ok) {
+        throw new Error('Failed to generate prompts. Please try again.');
+      }
 
-Please provide thoughtful, compassionate prompts that will genuinely help this person gain insight and clarity.`;
-
-    // Save the generated prompt to state so it displays on screen
-    setGeneratedPrompt(llmPrompt);
+      const data = await response.json();
+      setGeneratedPrompts(data.prompts);
+    } catch (err) {
+      setError(err.message || 'An error occurred. Please make sure your backend server is running.');
+      console.error('Error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // ============================================================
@@ -83,11 +97,8 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
   // This runs when user clicks the "Copy" button
   // ============================================================
   const copyToClipboard = () => {
-    // Use browser's clipboard API to copy the text
-    navigator.clipboard.writeText(generatedPrompt);
-    // Show "Copied!" message by setting copied to true
+    navigator.clipboard.writeText(generatedPrompts);
     setCopied(true);
-    // After 2 seconds, hide the "Copied!" message
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -102,35 +113,107 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
     setLens('');
     setCustomLens('');
     setNumPrompts('');
-    setGeneratedPrompt('');
+    setGeneratedPrompts('');
+    setError('');
   };
 
   // ============================================================
   // RENDER - This is what actually shows on the screen
   // ============================================================
   return (
-    // OUTER CONTAINER - Full page background with gradient
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
-      {/* CENTER CONTAINER - Keeps content centered and not too wide */}
       <div className="max-w-3xl mx-auto">
-        {/* WHITE CARD - Main content area */}
         <div className="bg-white rounded-lg shadow-xl p-8">
           
           {/* ============================================================ */}
-          {/* HEADER SECTION - Title and icon */}
+          {/* HEADER SECTION - Logo */}
           {/* ============================================================ */}
-          <div className="flex items-center justify-center mb-6">
-            <BookOpen className="w-10 h-10 text-indigo-600 mr-3" />
-            <h1 className="text-3xl font-bold text-gray-800">Journal Prompt Generator</h1>
+          <div className="flex flex-col items-center justify-center mb-6">
+            {/* SVG LOGO - Journal Guru */}
+            <svg 
+              viewBox="0 0 300 200" 
+              className="w-64 h-auto"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Circle border */}
+              <circle cx="150" cy="90" r="70" fill="none" stroke="#0a3d52" strokeWidth="8"/>
+              
+              {/* Radiating beams behind typewriter */}
+              <g opacity="1">
+                {/* Top beams */}
+                <rect x="147" y="35" width="6" height="15" fill="#1db4e8" transform="rotate(-90 150 45)"/>
+                <rect x="147" y="35" width="6" height="15" fill="#1db4e8" transform="rotate(-60 150 45)"/>
+                <rect x="147" y="35" width="6" height="15" fill="#1db4e8" transform="rotate(-30 150 45)"/>
+                <rect x="147" y="35" width="6" height="15" fill="#1db4e8" transform="rotate(0 150 45)"/>
+                <rect x="147" y="35" width="6" height="15" fill="#1db4e8" transform="rotate(30 150 45)"/>
+                <rect x="147" y="35" width="6" height="15" fill="#1db4e8" transform="rotate(60 150 45)"/>
+                <rect x="147" y="35" width="6" height="15" fill="#1db4e8" transform="rotate(90 150 45)"/>
+                
+                {/* Side beams - left */}
+                <rect x="95" y="87" width="25" height="6" fill="#1db4e8"/>
+                <rect x="95" y="77" width="25" height="6" fill="#1db4e8" transform="rotate(-15 107 80)"/>
+                <rect x="95" y="97" width="25" height="6" fill="#1db4e8" transform="rotate(15 107 100)"/>
+                
+                {/* Side beams - right */}
+                <rect x="180" y="87" width="25" height="6" fill="#1db4e8"/>
+                <rect x="180" y="77" width="25" height="6" fill="#1db4e8" transform="rotate(15 193 80)"/>
+                <rect x="180" y="97" width="25" height="6" fill="#1db4e8" transform="rotate(-15 193 100)"/>
+              </g>
+              
+              {/* Bottom radiating trapezoids */}
+              <g opacity="1">
+                <polygon points="115,115 110,140 120,140" fill="#1db4e8"/>
+                <polygon points="125,115 122,140 132,140" fill="#1db4e8"/>
+                <polygon points="135,115 134,140 144,140" fill="#1db4e8"/>
+                <polygon points="145,115 146,140 156,140" fill="#1db4e8"/>
+                <polygon points="155,115 158,140 168,140" fill="#1db4e8"/>
+                <polygon points="165,115 170,140 180,140" fill="#1db4e8"/>
+                <polygon points="175,115 182,140 190,140" fill="#1db4e8"/>
+              </g>
+              
+              {/* Typewriter body - main trapezoid shape */}
+              <path d="M 115 75 L 110 115 L 190 115 L 185 75 Z" fill="#0a3d52"/>
+              
+              {/* Typewriter top section where paper feeds */}
+              <rect x="125" y="55" width="50" height="25" fill="#1db4e8" rx="2"/>
+              <rect x="128" y="58" width="44" height="19" fill="#0a3d52" rx="1"/>
+              
+              {/* Paper in typewriter */}
+              <rect x="135" y="45" width="30" height="25" fill="white" stroke="#0a3d52" strokeWidth="2"/>
+              
+              {/* Typewriter roller bar */}
+              <rect x="130" y="52" width="40" height="3" fill="#0a3d52"/>
+              
+              {/* Keyboard keys (dots) */}
+              <g fill="#1db4e8">
+                <circle cx="125" cy="92" r="2"/>
+                <circle cx="135" cy="92" r="2"/>
+                <circle cx="145" cy="92" r="2"/>
+                <circle cx="155" cy="92" r="2"/>
+                <circle cx="165" cy="92" r="2"/>
+                <circle cx="175" cy="92" r="2"/>
+                
+                <circle cx="130" cy="100" r="2"/>
+                <circle cx="140" cy="100" r="2"/>
+                <circle cx="150" cy="100" r="2"/>
+                <circle cx="160" cy="100" r="2"/>
+                <circle cx="170" cy="100" r="2"/>
+              </g>
+              
+              {/* "JOURNAL GURU" text */}
+              <text x="150" y="195" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" fill="#1db4e8" textAnchor="middle" letterSpacing="2">
+                JOURNAL GURU
+              </text>
+            </svg>
           </div>
           
-          {/* Subtitle explaining what this tool does */}
+          {/* Subtitle */}
           <p className="text-gray-600 text-center mb-8">
-            Create personalized journal prompts tailored to your life situation and philosophical perspective
+            Get personalized journal prompts powered by Claude AI
           </p>
 
           {/* ============================================================ */}
-          {/* FORM SECTION - All the input fields! */}
+          {/* FORM SECTION */}
           {/* ============================================================ */}
           <div className="space-y-6">
             
@@ -141,7 +224,7 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
               </label>
               <select
                 value={age}
-                onChange={(e) => setAge(e.target.value)} // Updates 'age' when user selects
+                onChange={(e) => setAge(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
               >
                 <option value="">Select your age range</option>
@@ -160,7 +243,7 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
               </label>
               <select
                 value={issue}
-                onChange={(e) => setIssue(e.target.value)} // Updates 'issue' when user selects
+                onChange={(e) => setIssue(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
               >
                 <option value="">Select an issue to explore</option>
@@ -170,7 +253,6 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
                 <option value="Other">Other (specify below)</option>
               </select>
 
-              {/* TEXT INPUT: Shows when "Other" is selected */}
               {issue === 'Other' && (
                 <input
                   type="text"
@@ -189,7 +271,7 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
               </label>
               <select
                 value={lens}
-                onChange={(e) => setLens(e.target.value)} // Updates 'lens' when user selects
+                onChange={(e) => setLens(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
               >
                 <option value="">Select a philosophical lens</option>
@@ -200,7 +282,6 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
                 <option value="Other">Other (specify below)</option>
               </select>
 
-              {/* TEXT INPUT: Shows when "Other" is selected for lens */}
               {lens === 'Other' && (
                 <input
                   type="text"
@@ -215,11 +296,11 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
             {/* DROPDOWN 4: Number of Prompts */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                How many prompts would you like to start with?
+                How many prompts would you like?
               </label>
               <select
                 value={numPrompts}
-                onChange={(e) => setNumPrompts(e.target.value)} // Updates 'numPrompts' when user selects
+                onChange={(e) => setNumPrompts(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
               >
                 <option value="">Select number of prompts</option>
@@ -230,31 +311,48 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
               </select>
             </div>
 
-            {/* GENERATE BUTTON - Runs generateLLMPrompt() when clicked */}
+            {/* GENERATE BUTTON */}
             <button
-              onClick={generateLLMPrompt}
-              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-indigo-700 transition-colors flex items-center justify-center"
+              onClick={generatePrompts}
+              disabled={loading}
+              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-indigo-700 transition-colors flex items-center justify-center disabled:bg-indigo-400 disabled:cursor-not-allowed"
             >
-              <Sparkles className="w-5 h-5 mr-2" />
-              Generate LLM Prompt
+              {loading ? (
+                <>
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  Generating Your Prompts...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  Generate Journal Prompts
+                </>
+              )}
             </button>
 
+            {/* ERROR MESSAGE */}
+            {error && (
+              <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-700 text-sm">{error}</p>
+                <p className="text-red-600 text-xs mt-2">
+                  Make sure your backend server is running on http://localhost:3001
+                </p>
+              </div>
+            )}
+
             {/* ============================================================ */}
-            {/* RESULTS SECTION - Only shows if generatedPrompt has content */}
+            {/* RESULTS SECTION */}
             {/* ============================================================ */}
-            {generatedPrompt && (
+            {generatedPrompts && (
               <div className="mt-8 space-y-4">
                 
-                {/* Header with Copy Button */}
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-gray-800">Your Custom LLM Prompt</h2>
+                  <h2 className="text-xl font-semibold text-gray-800">Your Journal Prompts</h2>
                   
-                  {/* COPY BUTTON - Runs copyToClipboard() when clicked */}
                   <button
                     onClick={copyToClipboard}
                     className="flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
                   >
-                    {/* Shows "Copied!" if copied is true, otherwise shows "Copy" */}
                     {copied ? (
                       <>
                         <Check className="w-4 h-4 mr-2 text-green-600" />
@@ -269,33 +367,25 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
                   </button>
                 </div>
                 
-                {/* Gray box displaying the generated prompt */}
                 <div className="bg-gray-50 p-6 rounded-lg border-2 border-gray-200">
-                  <pre className="whitespace-pre-wrap text-sm text-gray-700 font-mono">
-                    {generatedPrompt}
-                  </pre>
+                  <div className="whitespace-pre-wrap text-sm text-gray-700">
+                    {generatedPrompts}
+                  </div>
                 </div>
 
-                {/* Instructions for the user */}
-                <p className="text-sm text-gray-600 italic">
-                  Copy this prompt and paste it into your favorite LLM (ChatGPT, Claude, etc.) to receive your personalized journal prompts.
-                </p>
-
-                {/* RESET BUTTON - Runs resetForm() when clicked */}
                 <button
                   onClick={resetForm}
                   className="w-full bg-gray-200 text-gray-700 py-2 px-6 rounded-lg font-medium hover:bg-gray-300 transition-colors"
                 >
-                  Create Another Prompt
+                  Generate New Prompts
                 </button>
               </div>
             )}
           </div>
         </div>
 
-        {/* Footer text */}
         <div className="mt-6 text-center text-sm text-gray-600">
-          <p>Use this generated prompt with any LLM to receive thoughtful, personalized journal prompts</p>
+          <p>Powered by Claude AI • Your prompts are generated in real-time</p>
         </div>
       </div>
     </div>
