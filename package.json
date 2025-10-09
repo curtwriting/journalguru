@@ -2,9 +2,9 @@
   "name": "journal-guru",
   "version": "0.1.0",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.32.1",  ← ADD THIS
+    "@anthropic-ai/sdk": "^0.32.1",  
     "react": "^18.x.x",
     "react-dom": "^18.x.x",
-    // ... your other React dependencies
+    //
   }
 }
