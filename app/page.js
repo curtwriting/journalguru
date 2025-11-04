@@ -31,6 +31,7 @@ export default function Home() {
   const [prompts, setPrompts] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
 
   // ============================================================
   // EVENT HANDLERS
@@ -49,11 +50,22 @@ export default function Home() {
     if (fieldName === 'style') setCustomStyle(value);
   };
 
+  const handleCopyAll = async () => {
+    try {
+      await navigator.clipboard.writeText(prompts);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     setPrompts('');
+    setCopied(false);
 
     // Prepare form data with custom values if "Other" is selected
     const submitData = {
@@ -218,7 +230,27 @@ export default function Home() {
         {/* Results Display - Shows generated prompts */}
         {prompts && (
           <div className="results-container">
-            <h2 className="results-title">Your Personalized Journal Prompts</h2>
+            <div className="results-header">
+              <h2 className="results-title" style={{ marginBottom: 0 }}>Your Personalized Journal Prompts</h2>
+              <button
+                onClick={handleCopyAll}
+                className="btn-copy"
+                style={{
+                  padding: '0.5rem 1rem',
+                  backgroundColor: copied ? '#10b981' : 'transparent',
+                  color: copied ? 'white' : 'var(--primary-color)',
+                  border: `1px solid ${copied ? '#10b981' : 'var(--primary-color)'}`,
+                  borderRadius: '0.375rem',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {copied ? '✓ Copied!' : 'Copy All'}
+              </button>
+            </div>
             <div className="prompts-content">{prompts}</div>
           </div>
         )}

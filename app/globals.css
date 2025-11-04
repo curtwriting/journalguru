@@ -183,11 +183,35 @@ body {
   padding: 2rem;
 }
 
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 .results-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: #111827;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .results-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .results-title {
+    font-size: 1.25rem;
+  }
+  
+  .btn-copy {
+    width: 100%;
+  }
 }
 
 /* Prompts display styling */
