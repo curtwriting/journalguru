@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Journal Guru - AI-Powered Journal Prompts",
-  description: "Generate personalized journal prompts tailored to your life situation, age, and philosophical perspective using AI.",
+  title: "Journal Guru",
+  description: "Generate personalized journal prompts tailored to your life situation, age, and philosophical perspective.",
 };
 
 export default function RootLayout({ children }) {
