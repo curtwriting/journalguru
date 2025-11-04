@@ -84,7 +84,7 @@ Please provide thoughtful, compassionate prompts that will genuinely help this p
     
     // Send the prompt to Claude and get the response
     const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514', // Using the latest Claude model
+      model: 'claude-3-5-haiku-latest', // Using the latest Claude model
       max_tokens: 2048, // Maximum length of response
       messages: [
         {

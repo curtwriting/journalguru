@@ -222,6 +222,9 @@ export default function Home() {
             <div className="prompts-content">{prompts}</div>
           </div>
         )}
+          <div>
+            By Curt & Godwins
+          </div>
       </div>
     </div>
   );
