@@ -1,26 +1,199 @@
-@import "tailwindcss";
+/* ============================================================
+   GLOBAL STYLES FOR JOURNAL GURU APP
+   ============================================================ */
 
+/* CSS Variables for consistent theming */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary-color: #7c3aed; /* Purple */
+  --primary-hover: #6d28d9;
+  --secondary-color: #f3f4f6; /* Light gray */
+  --border-color: #d1d5db;
+  --text-muted: #6b7280;
+  --error-bg: #fef2f2;
+  --error-border: #fecaca;
+  --error-text: #991b1b;
+  --success-bg: #f0fdf4;
+  --success-border: #bbf7d0;
+  --success-text: #166534;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* Dark mode support */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --secondary-color: #1f2937;
+    --border-color: #374151;
+    --text-muted: #9ca3af;
   }
 }
 
+/* Base body styling */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   LAYOUT COMPONENTS
+   ============================================================ */
+
+/* Main container for the entire page */
+.page-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #faf5ff 0%, #e0e7ff 100%);
+  padding: 3rem 1rem;
+}
+
+/* Centered content wrapper */
+.content-wrapper {
+  max-width: 64rem; /* 1024px */
+  margin: 0 auto;
+}
+
+/* Header section styling */
+.header-section {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.header-subtitle {
+  font-size: 1.25rem;
+  color: #6b7280;
+}
+
+/* ============================================================
+   FORM COMPONENTS
+   ============================================================ */
+
+/* Main form container */
+.form-container {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Form grid layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+/* Responsive grid for larger screens */
+@media (min-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Form field styling */
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+/* Input and select styling */
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+/* Button styling */
+.btn-primary {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   MESSAGE COMPONENTS
+   ============================================================ */
+
+/* Error message styling */
+.error-message {
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-border);
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.error-text {
+  color: var(--error-text);
+  margin: 0;
+}
+
+/* Success/Results container */
+.results-container {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.results-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #111827;
+  margin-bottom: 1.5rem;
+}
+
+/* Prompts display styling */
+.prompts-content {
+  white-space: pre-wrap;
+  color: #374151;
+  line-height: 1.7;
+  font-size: 1rem;
 }
