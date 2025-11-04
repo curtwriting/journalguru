@@ -21,7 +21,7 @@ export default function Home() {
     issue: '',
     lens: '',
     style: '',
-    numPrompts: '3-5'
+    numPrompts: '1'
   });
 
   const [customIssue, setCustomIssue] = useState('');
@@ -196,8 +196,8 @@ export default function Home() {
               <label htmlFor="numPrompts" className="form-label">Number of Prompts</label>
               <select id="numPrompts" name="numPrompts" value={formData.numPrompts} onChange={handleInputChange} className="form-select">
                 <option value="1">1 prompt</option>
+                <option value="2">2 prompts</option>
                 <option value="3-5">3-5 prompts</option>
-                <option value="5-7">5-7 prompts</option>
               </select>
             </div>
 
@@ -223,6 +223,16 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      <footer style={{
+        marginTop: '3rem',
+        textAlign: 'center',
+        color: '#6b7280',
+        fontSize: '0.875rem'
+      }}>
+        <p>By Curt & Godwins</p>
+      </footer>
+
     </div>
   );
 }
