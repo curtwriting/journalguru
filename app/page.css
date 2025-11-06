@@ -1,35 +1,8 @@
 /* ============================================================
-   JOURNAL GURU - EARTH TONES & FUN STYLING
+   JOURNAL GURU - PROFESSIONAL & WELCOMING DESIGN
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
-
-/* Color Definitions */
-/* Warm Earth Tones */
-/* --primary-color: #A0826D; */
-/* --primary-light: #C8B8A8; */
-/* --primary-dark: #7A6D61; */
-
-/* Accent Colors */
-/* --accent-warm: #D9654D; */
-/* --accent-light: #E8A87C; */
-/* --accent-terracotta: #E07856; */
-
-/* Nature Tones */
-/* --sage-green: #9CAF88; */
-/* --sage-light: #C8D4BA; */
-/* --cream: #FFF8E7; */
-/* --cream-dark: #F5E6D3; */
-/* --warm-white: #FAF6F1; */
-
-/* Text Colors */
-/* --text-dark: #5A4A42; */
-/* --text-muted: #8B7355; */
-
-/* Fun Fonts */
-/* --font-main: 'Trebuchet MS', 'Avenir', 'Segoe UI', system-ui, sans-serif; */
-/* --font-heading: 'Georgia', 'Palatino', 'Garamond', serif; */
-/* --font-fun: 'Comic Sans MS', 'Trebuchet MS', cursive, system-ui; */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap');
 
 /* ============================================================
    GENERAL STYLES
@@ -40,10 +13,10 @@
 }
 
 body {
-  font-family: 'Quicksand', sans-serif;
-  background: linear-gradient(135deg, #FFF8E7 0%, #F5E6D3 100%);
-  color: #5A4A42;
-  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #FBF9F6 0%, #F5F1ED 100%);
+  color: #3A3531;
+  line-height: 1.7;
   margin: 0;
   padding: 0;
 }
@@ -54,14 +27,14 @@ body {
 
 .pageContainer {
   min-height: 100vh;
-  padding: 2rem 1rem;
-  background: linear-gradient(135deg, #FFF8E7 0%, #F5E6D3 100%);
+  padding: 3rem 1.5rem;
+  background: linear-gradient(135deg, #FBF9F6 0%, #F5F1ED 100%);
   display: flex;
   justify-content: center;
 }
 
 .contentWrapper {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   width: 100%;
 }
@@ -72,30 +45,30 @@ body {
 
 .headerSection {
   text-align: center;
-  margin-bottom: 3rem;
-  padding: 2rem 1.5rem;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 1.5rem;
-  border: 3px solid #9CAF88;
-  box-shadow: 0 8px 24px rgba(160, 130, 109, 0.1);
+  margin-bottom: 4rem;
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(156, 175, 136, 0.3);
+  box-shadow: 0 4px 12px rgba(160, 130, 109, 0.08);
 }
 
 .headerTitle {
-  font-family: 'Poppins', sans-serif;
-  font-size: 3.5rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 2.8rem;
   font-weight: 700;
-  color: #E07856;
-  margin: 0 0 0.5rem 0;
-  letter-spacing: -1px;
-  text-shadow: 2px 2px 4px rgba(224, 120, 86, 0.1);
+  color: #9CAF88;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.5px;
 }
 
 .headerSubtitle {
-  font-family: 'Quicksand', sans-serif;
-  font-size: 1.1rem;
-  color: #8B7355;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  color: #6B6460;
   margin: 0;
-  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.3px;
 }
 
 /* ============================================================
@@ -103,87 +76,86 @@ body {
    ============================================================ */
 
 .formContainer {
-  background: rgba(255, 255, 255, 0.85);
-  padding: 2.5rem;
-  border-radius: 1.5rem;
-  border: 3px dashed #E8A87C;
-  box-shadow: 0 10px 30px rgba(160, 130, 109, 0.15);
-  margin: 0 auto 2rem auto;
-  max-width: 650px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 3rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(232, 168, 124, 0.25);
+  box-shadow: 0 6px 16px rgba(160, 130, 109, 0.1);
+  margin: 0 auto 2.5rem auto;
+  max-width: 700px;
 }
 
 .formGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 2rem;
+  margin-bottom: 2rem;
   width: 100%;
 }
 
 @media (max-width: 768px) {
   .formGrid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
 .formField {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
+  gap: 0.75rem;
 }
 
 .formLabel {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #A0826D;
-  letter-spacing: 0.5px;
-  text-align: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6B6460;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  opacity: 0.85;
 }
 
 .formSelect {
-  padding: 0.75rem 1rem;
-  border: 2px solid #C8B8A8;
+  padding: 1rem;
+  border: 1px solid #E5DEDA;
   border-radius: 0.75rem;
-  font-family: 'Quicksand', sans-serif;
-  font-size: 0.95rem;
-  background-color: #FAF6F1;
-  color: #5A4A42;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  background-color: #FBF9F6;
+  color: #3A3531;
   cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
+  transition: all 0.2s ease;
 }
 
 .formSelect:hover {
-  border-color: #E8A87C;
-  background-color: rgba(232, 168, 124, 0.05);
+  border-color: #D9B59D;
+  background-color: #FFF8F3;
 }
 
 .formSelect:focus {
   outline: none;
-  border-color: #E07856;
-  box-shadow: 0 0 0 3px rgba(217, 101, 77, 0.1);
-  background-color: #FFF8E7;
+  border-color: #9CAF88;
+  box-shadow: 0 0 0 3px rgba(156, 175, 136, 0.1);
+  background-color: #FBF9F6;
 }
 
 .formInputCustom {
-  padding: 0.75rem 1rem;
-  border: 2px solid #C8D4BA;
+  padding: 1rem;
+  border: 1px solid #E5DEDA;
   border-radius: 0.75rem;
-  font-family: 'Quicksand', sans-serif;
-  font-size: 0.95rem;
-  background-color: #FAF6F1;
-  color: #5A4A42;
-  transition: all 0.3s ease;
-  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  background-color: #FBF9F6;
+  color: #3A3531;
+  transition: all 0.2s ease;
 }
 
 .formInputCustom:focus {
   outline: none;
   border-color: #9CAF88;
   box-shadow: 0 0 0 3px rgba(156, 175, 136, 0.1);
-  background-color: #FFF8E7;
+  background-color: #FBF9F6;
 }
 
 /* ============================================================
@@ -192,29 +164,29 @@ body {
 
 .btnPrimary {
   width: 100%;
-  padding: 1rem 1.5rem;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  padding: 1.1rem 2rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
   color: white;
-  background: linear-gradient(135deg, #E07856 0%, #D9654D 100%);
+  background: linear-gradient(135deg, #9CAF88 0%, #8BA679 100%);
   border: none;
-  border-radius: 1rem;
+  border-radius: 0.85rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 16px rgba(217, 101, 77, 0.3);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(156, 175, 136, 0.25);
 }
 
 .btnPrimary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(217, 101, 77, 0.4);
-  background: linear-gradient(135deg, #C2523A 0%, #CA5449 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(156, 175, 136, 0.35);
+  background: linear-gradient(135deg, #8BA679 0%, #7B986A 100%);
 }
 
 .btnPrimary:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(217, 101, 77, 0.25);
+  box-shadow: 0 2px 8px rgba(156, 175, 136, 0.2);
 }
 
 .btnPrimary:disabled {
@@ -223,11 +195,11 @@ body {
 }
 
 .btnCopy {
-  transition: all 0.3s ease !important;
+  transition: all 0.25s ease !important;
 }
 
 .btnCopy:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 /* ============================================================
@@ -235,40 +207,42 @@ body {
    ============================================================ */
 
 .resultsContainer {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(200, 212, 186, 0.1) 100%);
-  padding: 2rem;
-  border-radius: 1.5rem;
-  border: 3px solid #9CAF88;
-  box-shadow: 0 10px 30px rgba(156, 175, 136, 0.2);
-  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(156, 175, 136, 0.3);
+  box-shadow: 0 6px 16px rgba(156, 175, 136, 0.12);
+  margin-top: 2.5rem;
 }
 
 .resultsHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #C8D4BA;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #E5DEDA;
 }
 
 .resultsTitle {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.5rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
   color: #9CAF88;
   margin: 0;
+  letter-spacing: 0.2px;
 }
 
 .promptsContent {
-  font-family: 'Quicksand', sans-serif;
-  font-size: 1.15rem;
-  line-height: 1.8;
-  color: #5A4A42;
-  background: rgba(255, 255, 255, 0.6);
-  padding: 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.3rem;
+  line-height: 1.9;
+  color: #3A3531;
+  background: rgba(251, 249, 246, 0.6);
+  padding: 2.5rem;
   border-radius: 1rem;
-  border-left: 4px solid #E8A87C;
+  border-left: 4px solid #9CAF88;
   white-space: pre-wrap;
   word-break: break-word;
   text-align: center;
@@ -279,17 +253,18 @@ body {
    ============================================================ */
 
 .errorMessage {
-  background: rgba(217, 101, 77, 0.1);
-  border: 2px solid #E07856;
-  border-radius: 1rem;
-  padding: 1.25rem;
+  background: rgba(232, 168, 124, 0.08);
+  border: 1px solid #D9B59D;
+  border-radius: 0.85rem;
+  padding: 1.5rem;
   margin: 1.5rem 0;
 }
 
 .errorText {
   margin: 0;
-  color: #E07856;
+  color: #B87A5C;
   font-weight: 500;
+  font-size: 1rem;
 }
 
 /* ============================================================
@@ -298,15 +273,16 @@ body {
 
 footer {
   text-align: center;
-  color: #8B7355 !important;
-  font-family: 'Quicksand', sans-serif;
+  color: #8B7B70 !important;
+  font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
+  margin-top: 3rem;
 }
 
 footer p {
-  margin: 0;
-  font-weight: 500;
-  letter-spacing: 0.5px;
+  margin: 0.5rem 0;
+  font-weight: 400;
+  letter-spacing: 0.2px;
 }
 
 /* ============================================================
@@ -318,16 +294,16 @@ footer p {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F5E6D3;
+  background: #F5F1ED;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #C8B8A8;
+  background: #D9C7BB;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #A0826D;
+  background: #C8B5AB;
 }
 
 /* ============================================================
@@ -346,9 +322,32 @@ footer p {
 }
 
 .resultsContainer {
-  animation: fadeIn 0.4s ease-out;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .errorMessage {
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn 0.35s ease-out;
+}
+
+/* ============================================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================================ */
+
+@media (max-width: 600px) {
+  .headerTitle {
+    font-size: 2.2rem;
+  }
+
+  .formContainer {
+    padding: 2rem;
+  }
+
+  .promptsContent {
+    font-size: 1.15rem;
+    padding: 2rem;
+  }
+
+  .resultsContainer {
+    padding: 2rem;
+  }
 }
