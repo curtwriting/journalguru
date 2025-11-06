@@ -199,7 +199,7 @@ export default function Home() {
                   fontSize: '0.95rem',
                   fontWeight: '600',
                   color: colors.text
-                }}>I am</label>
+                }}>I am...</label>
                 <select id="age" name="age" value={formData.age} onChange={handleInputChange} required style={selectStyles(colors)}
                 onFocus={(e) => e.target.style.borderColor = colors.primary}
                 onBlur={(e) => e.target.style.borderColor = colors.border}
@@ -225,7 +225,7 @@ export default function Home() {
                 onFocus={(e) => e.target.style.borderColor = colors.primary}
                 onBlur={(e) => e.target.style.borderColor = colors.border}
                 >
-                  <option value="">Select your situation</option>
+                  <option value="">Select your focus</option>
                   <option value="Career transition">Career transition</option>
                   <option value="Relationship challenges">Relationship challenges</option>
                   <option value="Personal growth">Personal growth</option>
