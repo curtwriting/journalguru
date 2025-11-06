@@ -105,7 +105,8 @@ body {
   border-radius: 1.5rem;
   border: 3px dashed #E8A87C;
   box-shadow: 0 10px 30px rgba(160, 130, 109, 0.15);
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem auto;
+  max-width: 650px;
 }
 
 .formGrid {
@@ -113,6 +114,7 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -125,14 +127,16 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  align-items: center;
 }
 
 .formLabel {
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: #A0826D;
   letter-spacing: 0.5px;
+  text-align: center;
 }
 
 .formSelect {
@@ -145,6 +149,7 @@ body {
   color: #5A4A42;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .formSelect:hover {
@@ -168,6 +173,7 @@ body {
   background-color: #FAF6F1;
   color: #5A4A42;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .formInputCustom:focus {
