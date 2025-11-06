@@ -33,6 +33,48 @@ export default function Home() {
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
 
+  // Warm, professional color palette
+  const colors = {
+    background: '#f5f1e8',
+    backgroundAlt: '#faf8f3',
+    white: '#fff',
+    primary: '#c9a876',
+    primaryDark: '#b59465',
+    text: '#5a4a42',
+    textLight: '#8b7d78',
+    border: '#e8ddd5',
+    highlight: '#fff9e6',
+    error: '#dc2626',
+    success: '#10b981'
+  };
+
+  const selectStyles = (colors) => ({
+    padding: '0.875rem',
+    fontSize: '1rem',
+    borderRadius: '0.5rem',
+    border: `2px solid ${colors.border}`,
+    backgroundColor: colors.white,
+    color: colors.text,
+    fontFamily: 'inherit',
+    cursor: 'pointer',
+    transition: 'border-color 0.2s',
+    outline: 'none',
+    width: '100%'
+  });
+
+  const inputStyles = (colors) => ({
+    padding: '0.875rem',
+    fontSize: '1rem',
+    borderRadius: '0.5rem',
+    border: `2px solid ${colors.border}`,
+    backgroundColor: colors.backgroundAlt,
+    color: colors.text,
+    fontFamily: 'inherit',
+    outline: 'none',
+    transition: 'border-color 0.2s',
+    width: '100%'
+  });
+
   // ============================================================
   // EVENT HANDLERS
   // ============================================================
@@ -95,23 +137,73 @@ export default function Home() {
   // RENDER COMPONENT
   // ============================================================
   return (
-    <div className="page-container">
-      <div className="content-wrapper">
+    <div style={{
+      minHeight: '100vh',
+      background: `linear-gradient(135deg, ${colors.background} 0%, ${colors.backgroundAlt} 100%)`,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: '2rem 1rem'
+    }}>
+      <div style={{
+        maxWidth: '800px',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
         {/* Header Section - Title and Description */}
-        <div className="header-section">
-          <h1 className="header-title">Journal Guru</h1>
-          <p className="header-subtitle">AI-powered journal prompts tailored to your life situation</p>
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '3rem'
+        }}>
+          <h1 style={{
+            fontSize: '2.5rem',
+            fontWeight: '700',
+            color: colors.text,
+            marginBottom: '0.75rem',
+            letterSpacing: '-0.5px'
+          }}>
+            Journal Guru
+          </h1>
+          <p style={{
+            fontSize: '1.125rem',
+            color: colors.textLight,
+            fontWeight: '400',
+            marginBottom: 0,
+            lineHeight: '1.6'
+          }}>
+            AI-powered journal prompts tailored to your life situation
+          </p>
         </div>
 
         {/* Main Form Container */}
-        <div className="form-container">
+        <div style={{
+          backgroundColor: colors.white,
+          borderRadius: '1rem',
+          padding: '2.5rem',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1)',
+          marginBottom: '2rem',
+          border: `1px solid rgba(139, 125, 120, 0.1)`
+        }}>
           <form onSubmit={handleSubmit}>
             {/* Form Fields Grid - Responsive layout */}
-            <div className="form-grid">
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '2rem',
+              marginBottom: '2rem'
+            }}>
               {/* Age Range Selection */}
-              <div className="form-field">
-                <label htmlFor="age" className="form-label">Age Range</label>
-                <select id="age" name="age" value={formData.age} onChange={handleInputChange} required className="form-select">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <label htmlFor="age" style={{
+                  fontSize: '0.95rem',
+                  fontWeight: '600',
+                  color: colors.text
+                }}>I am</label>
+                <select id="age" name="age" value={formData.age} onChange={handleInputChange} required style={selectStyles(colors)}
+                onFocus={(e) => e.target.style.borderColor = colors.primary}
+                onBlur={(e) => e.target.style.borderColor = colors.border}
+                >
                   <option value="">Select age range</option>
                   <option value="18-25">18-25</option>
                   <option value="26-35">26-35</option>
@@ -123,9 +215,16 @@ export default function Home() {
               </div>
 
               {/* Life Situation Selection */}
-              <div className="form-field">
-                <label htmlFor="issue" className="form-label">Life Situation</label>
-                <select id="issue" name="issue" value={formData.issue} onChange={handleInputChange} required className="form-select">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <label htmlFor="issue" style={{
+                  fontSize: '0.95rem',
+                  fontWeight: '600',
+                  color: colors.text
+                }}>Today I want to focus on...</label>
+                <select id="issue" name="issue" value={formData.issue} onChange={handleInputChange} required style={selectStyles(colors)}
+                onFocus={(e) => e.target.style.borderColor = colors.primary}
+                onBlur={(e) => e.target.style.borderColor = colors.border}
+                >
                   <option value="">Select your situation</option>
                   <option value="Career transition">Career transition</option>
                   <option value="Relationship challenges">Relationship challenges</option>
@@ -144,16 +243,24 @@ export default function Home() {
                     value={customIssue}
                     onChange={(e) => handleCustomChange('issue', e.target.value)}
                     required
-                    className="form-input-custom"
-                    style={{ marginTop: '0.5rem' }}
+                    style={{...inputStyles(colors), marginTop: '0.5rem'}}
+                    onFocus={(e) => e.target.style.borderColor = colors.primary}
+                    onBlur={(e) => e.target.style.borderColor = colors.border}
                   />
                 )}
               </div>
 
               {/* Philosophical/Spiritual Lens Selection */}
-              <div className="form-field">
-                <label htmlFor="lens" className="form-label">Philosophical/Spiritual Lens</label>
-                <select id="lens" name="lens" value={formData.lens} onChange={handleInputChange} required className="form-select">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <label htmlFor="lens" style={{
+                  fontSize: '0.95rem',
+                  fontWeight: '600',
+                  color: colors.text
+                }}>My perspective today is...</label>
+                <select id="lens" name="lens" value={formData.lens} onChange={handleInputChange} required style={selectStyles(colors)}
+                onFocus={(e) => e.target.style.borderColor = colors.primary}
+                onBlur={(e) => e.target.style.borderColor = colors.border}
+                >
                   <option value="">Select your perspective</option>
                   <option value="Mindfulness and meditation">Mindfulness and meditation</option>
                   <option value="Stoic philosophy">Stoic philosophy</option>
@@ -171,16 +278,24 @@ export default function Home() {
                     value={customLens}
                     onChange={(e) => handleCustomChange('lens', e.target.value)}
                     required
-                    className="form-input-custom"
-                    style={{ marginTop: '0.5rem' }}
+                    style={{...inputStyles(colors), marginTop: '0.5rem'}}
+                    onFocus={(e) => e.target.style.borderColor = colors.primary}
+                    onBlur={(e) => e.target.style.borderColor = colors.border}
                   />
                 )}
               </div>
 
               {/* Writing Style Selection */}
-              <div className="form-field">
-                <label htmlFor="style" className="form-label">Style/Focus</label>
-                <select id="style" name="style" value={formData.style} onChange={handleInputChange} required className="form-select">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <label htmlFor="style" style={{
+                  fontSize: '0.95rem',
+                  fontWeight: '600',
+                  color: colors.text
+                }}>I want today's prompt to be...</label>
+                <select id="style" name="style" value={formData.style} onChange={handleInputChange} required style={selectStyles(colors)}
+                onFocus={(e) => e.target.style.borderColor = colors.primary}
+                onBlur={(e) => e.target.style.borderColor = colors.border}
+                >
                   <option value="">Select your preferred style</option>
                   <option value="Gentle and reflective">Gentle and reflective</option>
                   <option value="Direct and challenging">Direct and challenging</option>
@@ -196,17 +311,25 @@ export default function Home() {
                     value={customStyle}
                     onChange={(e) => handleCustomChange('style', e.target.value)}
                     required
-                    className="form-input-custom"
-                    style={{ marginTop: '0.5rem' }}
+                    style={{...inputStyles(colors), marginTop: '0.5rem'}}
+                    onFocus={(e) => e.target.style.borderColor = colors.primary}
+                    onBlur={(e) => e.target.style.borderColor = colors.border}
                   />
                 )}
               </div>
             </div>
 
             {/* Number of Prompts Selection */}
-            <div className="form-field" style={{ marginTop: '1.5rem' }}>
-              <label htmlFor="numPrompts" className="form-label">Number of Prompts</label>
-              <select id="numPrompts" name="numPrompts" value={formData.numPrompts} onChange={handleInputChange} className="form-select">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '2rem' }}>
+              <label htmlFor="numPrompts" style={{
+                fontSize: '0.95rem',
+                fontWeight: '600',
+                color: colors.text
+              }}>I need...</label>
+              <select id="numPrompts" name="numPrompts" value={formData.numPrompts} onChange={handleInputChange} style={{...selectStyles(colors), maxWidth: '200px'}}
+              onFocus={(e) => e.target.style.borderColor = colors.primary}
+              onBlur={(e) => e.target.style.borderColor = colors.border}
+              >
                 <option value="1">1 prompt</option>
                 <option value="2">2 prompts</option>
                 <option value="3-5">3-5 prompts</option>
@@ -214,7 +337,24 @@ export default function Home() {
             </div>
 
             {/* Submit Button */}
-            <button type="submit" disabled={loading} className="btn-primary" style={{ marginTop: '1.5rem' }}>
+            <button type="submit" disabled={loading} style={{
+              width: '100%',
+              padding: '1rem 1.5rem',
+              fontSize: '1rem',
+              fontWeight: '600',
+              backgroundColor: colors.primary,
+              color: colors.white,
+              border: 'none',
+              borderRadius: '0.5rem',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              transition: 'all 0.2s',
+              opacity: loading ? 0.7 : 1,
+              boxShadow: `0 4px 6px rgba(201, 168, 118, 0.2)`,
+              letterSpacing: '0.3px'
+            }}
+            onMouseEnter={(e) => !loading && (e.target.style.backgroundColor = colors.primaryDark)}
+            onMouseLeave={(e) => !loading && (e.target.style.backgroundColor = colors.primary)}
+            >
               {loading ? 'Generating Prompts...' : 'Generate Journal Prompts'}
             </button>
           </form>
@@ -222,49 +362,104 @@ export default function Home() {
 
         {/* Error Message Display */}
         {error && (
-          <div className="error-message">
-            <p className="error-text">{error}</p>
+          <div style={{
+            backgroundColor: '#fee2e2',
+            borderRadius: '0.5rem',
+            padding: '1.25rem',
+            marginBottom: '2rem',
+            border: '1px solid #fca5a5'
+          }}>
+            <p style={{
+              color: colors.error,
+              fontSize: '0.95rem',
+              margin: 0
+            }}>{error}</p>
           </div>
         )}
 
         {/* Results Display - Shows generated prompts */}
         {prompts && (
-          <div className="results-container">
-            <div className="results-header">
-              <h2 className="results-title" style={{ marginBottom: 0 }}>Your Personalized Journal Prompts</h2>
+          <div style={{
+            backgroundColor: colors.white,
+            borderRadius: '1rem',
+            padding: '2.5rem',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1)',
+            border: `1px solid rgba(139, 125, 120, 0.1)`,
+            animation: 'fadeIn 0.3s ease-in'
+          }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '2rem',
+              flexWrap: 'wrap',
+              gap: '1rem'
+            }}>
+              <h2 style={{
+                fontSize: '1.5rem',
+                fontWeight: '700',
+                color: colors.text,
+                margin: 0
+              }}>Your Personalized Journal Prompts</h2>
               <button
                 onClick={handleCopyAll}
-                className="btn-copy"
                 style={{
-                  padding: '0.5rem 1rem',
-                  backgroundColor: copied ? '#10b981' : 'transparent',
-                  color: copied ? 'white' : 'var(--primary-color)',
-                  border: `1px solid ${copied ? '#10b981' : 'var(--primary-color)'}`,
-                  borderRadius: '0.375rem',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
+                  padding: '0.75rem 1.5rem',
+                  backgroundColor: copied ? colors.success : 'transparent',
+                  color: copied ? colors.white : colors.primary,
+                  border: `2px solid ${copied ? colors.success : colors.primary}`,
+                  borderRadius: '0.5rem',
+                  fontSize: '0.95rem',
+                  fontWeight: '600',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                   whiteSpace: 'nowrap'
                 }}
+                onMouseEnter={(e) => !copied && (e.target.style.backgroundColor = '#f0e6d2')}
+                onMouseLeave={(e) => !copied && (e.target.style.backgroundColor = 'transparent')}
               >
                 {copied ? '✓ Copied!' : 'Copy All'}
               </button>
             </div>
-            <div className="prompts-content">{prompts}</div>
+            <div style={{
+              background: `linear-gradient(135deg, ${colors.highlight} 0%, ${colors.backgroundAlt} 100%)`,
+              borderLeft: `5px solid ${colors.primary}`,
+              padding: '2rem',
+              borderRadius: '0.5rem',
+              fontSize: '1.05rem',
+              lineHeight: '1.8',
+              color: colors.text,
+              whiteSpace: 'pre-wrap',
+              wordBreak: 'break-word',
+              boxShadow: `0 2px 4px rgba(201, 168, 118, 0.1)`
+            }}>{prompts}</div>
           </div>
         )}
       </div>
 
+      {/* Footer */}
       <footer style={{
-        marginTop: '3rem',
+        marginTop: '4rem',
         textAlign: 'center',
-        color: '#6b7280',
-        fontSize: '0.875rem'
+        color: colors.textLight,
+        fontSize: '0.9rem',
+        opacity: 0.8
       }}>
         <p>By Curt & Godwins</p>
       </footer>
 
+      <style>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }
