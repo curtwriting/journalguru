@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import './page.css';
 
 /**
  * ============================================================
@@ -110,7 +111,7 @@ export default function Home() {
             <div className="form-grid">
               {/* Age Range Selection */}
               <div className="form-field">
-                <label htmlFor="age" className="form-label">Age Range</label>
+                <label htmlFor="age" className="form-label">I am</label>
                 <select id="age" name="age" value={formData.age} onChange={handleInputChange} required className="form-select">
                   <option value="">Select age range</option>
                   <option value="18-25">18-25</option>
@@ -124,7 +125,7 @@ export default function Home() {
 
               {/* Life Situation Selection */}
               <div className="form-field">
-                <label htmlFor="issue" className="form-label">Life Situation</label>
+                <label htmlFor="issue" className="form-label">Today I want to focus on...</label>
                 <select id="issue" name="issue" value={formData.issue} onChange={handleInputChange} required className="form-select">
                   <option value="">Select your situation</option>
                   <option value="Career transition">Career transition</option>
@@ -152,7 +153,7 @@ export default function Home() {
 
               {/* Philosophical/Spiritual Lens Selection */}
               <div className="form-field">
-                <label htmlFor="lens" className="form-label">Philosophical/Spiritual Lens</label>
+                <label htmlFor="lens" className="form-label">My perspective today is...</label>
                 <select id="lens" name="lens" value={formData.lens} onChange={handleInputChange} required className="form-select">
                   <option value="">Select your perspective</option>
                   <option value="Mindfulness and meditation">Mindfulness and meditation</option>
@@ -179,7 +180,7 @@ export default function Home() {
 
               {/* Writing Style Selection */}
               <div className="form-field">
-                <label htmlFor="style" className="form-label">Style/Focus</label>
+                <label htmlFor="style" className="form-label">I want today's prompt to be...</label>
                 <select id="style" name="style" value={formData.style} onChange={handleInputChange} required className="form-select">
                   <option value="">Select your preferred style</option>
                   <option value="Gentle and reflective">Gentle and reflective</option>
@@ -205,7 +206,7 @@ export default function Home() {
 
             {/* Number of Prompts Selection */}
             <div className="form-field" style={{ marginTop: '1.5rem' }}>
-              <label htmlFor="numPrompts" className="form-label">Number of Prompts</label>
+              <label htmlFor="numPrompts" className="form-label">I need...</label>
               <select id="numPrompts" name="numPrompts" value={formData.numPrompts} onChange={handleInputChange} className="form-select">
                 <option value="1">1 prompt</option>
                 <option value="2">2 prompts</option>
@@ -237,9 +238,9 @@ export default function Home() {
                 className="btn-copy"
                 style={{
                   padding: '0.5rem 1rem',
-                  backgroundColor: copied ? '#10b981' : 'transparent',
-                  color: copied ? 'white' : 'var(--primary-color)',
-                  border: `1px solid ${copied ? '#10b981' : 'var(--primary-color)'}`,
+                  backgroundColor: copied ? '#9CAF88' : 'transparent',
+                  color: copied ? 'white' : '#A0826D',
+                  border: `1px solid ${copied ? '#9CAF88' : '#A0826D'}`,
                   borderRadius: '0.375rem',
                   fontSize: '0.875rem',
                   fontWeight: '500',
@@ -259,7 +260,7 @@ export default function Home() {
       <footer style={{
         marginTop: '3rem',
         textAlign: 'center',
-        color: '#6b7280',
+        color: '#8B7355',
         fontSize: '0.875rem'
       }}>
         <p>By Curt & Godwins</p>
