@@ -41,13 +41,41 @@ export async function POST(request) {
     }
 
     // ============================================================
-    // STEP 2: SETUP AI CLIENT
+    // STEP 2: SETUP AI CLIENT OR USE MOCK MODE
     // ============================================================
+    
+    // Check if API key exists, if not, use mock mode for testing
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    
+    if (!apiKey) {
+      // Mock mode: Return sample prompts after a short delay to simulate API call
+      console.log('No API key found - Using mock mode for testing');
+      
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Generate mock prompts based on user input
+      const promptCount = numPrompts === '3-5' ? 4 : parseInt(numPrompts);
+      const mockPrompts = Array.from({ length: promptCount }, (_, i) => {
+        return `**Journal Prompt ${i + 1}**
+
+          Reflect on your experience with ${issue} through the lens of ${lens}. Consider how the principles of this perspective can guide you in navigating this situation.
+
+          Take a moment to explore:
+          - What aspects of ${issue} feel most challenging right now?
+          - How might ${lens} offer insights or tools to help you approach this differently?
+          - What would it look like to apply a ${style.toLowerCase()} approach to understanding this situation?
+
+          Write freely, allowing your thoughts to flow without judgment.`;
+                }).join('\n\n---\n\n');
+      
+      return NextResponse.json({ prompts: mockPrompts });
+    }
     
     // Initialize the Anthropic (Claude) AI client
     // The API key is stored in environment variables for security
     const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
+      apiKey: apiKey,
     });
 
     // ============================================================
