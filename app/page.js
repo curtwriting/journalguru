@@ -256,28 +256,33 @@ export default function Home() {
                 borderRadius: '0.375rem'
               }}></div>
           </div>
-          <div className="skeleton-block" style={{ 
-                    height: '1.5rem', 
-                    width: '70%', 
-                    marginBottom: '1rem',
-                    borderRadius: '0.25rem'
-                  }}></div>
-
-            {Array.from({ length: 5}).map((_, lineIndex) => (
+          {Array.from({ length: 3}).map((_, i) => (
+            <div key={i}>
               <div 
-                key={lineIndex}
-                className="skeleton-block"
-                style={{
-                  height: '1.5rem',
-                  width: lineIndex === 4 ? '60%' : '100%',
-                  marginBottom: '0.5rem',
+                className="skeleton-block" 
+                style={{ 
+                  height: '1.5rem', 
+                  width: '70%', 
+                  marginBottom: '2rem',
                   borderRadius: '0.25rem'
-                }}
+                }}></div>
+
+              {Array.from({ length: 5}).map((_, lineIndex) => (
+                <div 
+                  key={lineIndex}
+                  className="skeleton-block"
+                  style={{
+                    height: '1.5rem',
+                    width: lineIndex === 4 ? '60%' : '100%',
+                    marginBottom: '0.5rem',
+                    borderRadius: '0.25rem'
+                  }}
                 ></div>
-            )
-            )}
-        </div>
-         )}
+              ))}
+            </div>
+          ))}
+          </div>
+        )}
 
         {/* Results Display - Shows generated prompts */}
         {prompts && !loading && (
