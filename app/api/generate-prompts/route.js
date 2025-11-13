@@ -41,13 +41,41 @@ export async function POST(request) {
     }
 
     // ============================================================
-    // STEP 2: SETUP AI CLIENT
+    // STEP 2: SETUP AI CLIENT OR USE MOCK MODE
     // ============================================================
+    
+    // Check if API key exists, if not, use mock mode for testing
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    
+    if (!apiKey) {
+      // Mock mode: Return sample prompts after a short delay to simulate API call
+      console.log('No API key found - Using mock mode for testing');
+      
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Generate mock prompts based on user input
+      const promptCount = numPrompts === '3-5' ? 4 : parseInt(numPrompts);
+      const mockPrompts = Array.from({ length: promptCount }, (_, i) => {
+        return `**Journal Prompt ${i + 1}**
+
+          Reflect on your experience with ${issue} through the lens of ${lens}. Consider how the principles of this perspective can guide you in navigating this situation.
+
+          Take a moment to explore:
+          - What aspects of ${issue} feel most challenging right now?
+          - How might ${lens} offer insights or tools to help you approach this differently?
+          - What would it look like to apply a ${style.toLowerCase()} approach to understanding this situation?
+
+          Write freely, allowing your thoughts to flow without judgment.`;
+                }).join('\n\n---\n\n');
+      
+      return NextResponse.json({ prompts: mockPrompts });
+    }
     
     // Initialize the Anthropic (Claude) AI client
     // The API key is stored in environment variables for security
     const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
+      apiKey: apiKey,
     });
 
     // ============================================================
@@ -59,22 +87,25 @@ export async function POST(request) {
 
     // Create a detailed prompt that tells the AI exactly what we want
     const prompt = `You are a thoughtful journaling coach helping someone develop meaningful self-reflection practices. Please create ${promptCount} journal prompt${numPrompts === '1' ? '' : 's'} for the following person:
+        Age Range: ${age}
+        Life Situation: ${issue}
+        Philosophical/Spiritual Lens: ${lens}
+        Style/Focus: ${style}
 
-Age Range: ${age}
-Life Situation: ${issue}
-Philosophical/Spiritual Lens: ${lens}
-Style/Focus: ${style}
+        Requirements:
+        - Tailor the language and complexity to be age-appropriate for someone in the ${age} age range
+        - Focus specifically on helping them explore "${issue}"
+        - Frame the prompts through a ${lens} perspective, incorporating relevant principles and wisdom from this tradition
+        - Use a ${style} style/tone in crafting these prompts
+        - Make each prompt open-ended to encourage deep reflection
+        - Ensure prompts are specific enough to be actionable but broad enough to allow personal interpretation
+        - Include gentle guidance on how to approach the prompt if helpful
 
-Requirements:
-- Tailor the language and complexity to be age-appropriate for someone in the ${age} age range
-- Focus specifically on helping them explore "${issue}"
-- Frame the prompts through a ${lens} perspective, incorporating relevant principles and wisdom from this tradition
-- Use a ${style} style/tone in crafting these prompts
-- Make each prompt open-ended to encourage deep reflection
-- Ensure prompts are specific enough to be actionable but broad enough to allow personal interpretation
-- Include gentle guidance on how to approach the prompt if helpful
-
-Please provide thoughtful, compassionate prompts that will genuinely help this person gain insight and clarity.`;
+        Please provide thoughtful, compassionate prompts that will genuinely help this person gain insight and clarity.
+        
+        OUTPUT INSTRUCTIONS: Generate ONLY the requested journal prompts and any associated guidance. 
+        DO NOT include any introductory or concluding conversational remarks, or any questions about elaboration or follow-up. 
+        Stop generating text immediately after the final prompt.`;
 
     console.log('Calling Claude API...');
 

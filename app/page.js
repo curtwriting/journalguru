@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 /**
  * ============================================================
@@ -132,6 +132,20 @@ export default function Home() {
       setLoading(false);
     }
   };
+
+  const resultsRef = useRef(null);
+
+  // Scroll when prompts are generated
+  useEffect(() => {
+    if ((loading || prompts) && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
+    }
+  }, [loading, prompts])
 
   // ============================================================
   // RENDER COMPONENT
@@ -377,6 +391,49 @@ export default function Home() {
               fontSize: '0.95rem',
               margin: 0
             }}>{error}</p>
+          </div>
+        )}
+
+        {loading && (
+          <div className="results-container" ref={resultsRef}>
+          <div className="results-header">
+            <div className="skeleton-block" style={{ 
+                  height: '1.5rem', 
+                  width: '18rem', 
+                  maxWidth: '100%',
+                  borderRadius: '0.375rem'
+                }}></div>
+            <div className="skeleton-block" style={{ 
+                height: '2.5rem', 
+                width: '6rem', 
+                borderRadius: '0.375rem'
+              }}></div>
+          </div>
+          {Array.from({ length: 3}).map((_, i) => (
+            <div key={i}>
+              <div 
+                className="skeleton-block" 
+                style={{ 
+                  height: '1.5rem', 
+                  width: '70%', 
+                  marginBottom: '2rem',
+                  borderRadius: '0.25rem'
+                }}></div>
+
+              {Array.from({ length: 5}).map((_, lineIndex) => (
+                <div 
+                  key={lineIndex}
+                  className="skeleton-block"
+                  style={{
+                    height: '1.5rem',
+                    width: lineIndex === 4 ? '60%' : '100%',
+                    marginBottom: '0.5rem',
+                    borderRadius: '0.25rem'
+                  }}
+                ></div>
+              ))}
+            </div>
+          ))}
           </div>
         )}
 
